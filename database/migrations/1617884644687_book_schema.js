@@ -4,14 +4,15 @@
 const Schema = use('Schema')
 
 class BookSchema extends Schema {
-  up () {
+  up() {
     this.create('books', (table) => {
-      table.increments()
-      table.timestamps()
+      table.increments() // id column
+      table.string('title')
+      table.timestamps() // created_at & updated_at column
     })
   }
 
-  down () {
+  down() {
     this.drop('books')
   }
 }
