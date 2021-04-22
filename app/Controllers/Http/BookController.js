@@ -4,6 +4,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+// Reference the book model
+const Book = use("App/Models/Book.js")
+
 /**
  * Resourceful controller for interacting with books
  */
@@ -17,7 +20,12 @@ class BookController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({ request, response }) {
+    // Select everything from the books table
+    const books = await Book.all()
+    response.send({
+      books
+    })
   }
 
   /**
@@ -29,6 +37,11 @@ class BookController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
+    const bookTitle = request.title;
+    await Book.create({
+      title: request.title,
+      desciption: request.desciption
+    })
   }
 
   /**

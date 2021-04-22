@@ -17,3 +17,10 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+
+Route.post('register', 'RegisterController.register').namespace('Auth')
+Route.post('login', 'LoginController.authenticate').namespace('Auth')
+
+
+// GET - Books
+Route.get('/books', 'BookController.index')
