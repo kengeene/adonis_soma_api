@@ -36,11 +36,24 @@ class BookController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
-    const bookTitle = request.title;
-    await Book.create({
-      title: request.title,
-      desciption: request.desciption
+  async store({ auth, request, response }) {
+    const owner = await auth.getUser()
+    const bookData = request.only([
+      "title", "description", "author"
+    ])
+
+    // Find the book in the db and if not exist create it
+    const book = await Book.findOrCreate({
+      owner_id: owner.id,
+      title: bookData.title
+    }, {
+      ...bookData,
+      owner_id: owner.id
+    })
+
+    response.status(201).send({
+      data: book,
+      message: 'Book successfully added'
     })
   }
 

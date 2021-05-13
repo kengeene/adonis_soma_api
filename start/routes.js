@@ -19,8 +19,9 @@ const Route = use('Route')
 Route.on('/').render('welcome')
 
 Route.post('register', 'RegisterController.register').namespace('Auth')
-Route.post('login', 'LoginController.authenticate').namespace('Auth')
+Route.post('login', 'LoginController.authenticate').namespace('Auth').validator('LoginValidator')
 
 
-// GET - Books
+// Books
 Route.get('/books', 'BookController.index')
+Route.post('/books', 'BookController.store')
