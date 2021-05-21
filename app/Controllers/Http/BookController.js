@@ -6,7 +6,7 @@
 
 // Reference the book model
 const Book = use("App/Models/Book.js")
-
+const User = use("App/Models/User.js")
 /**
  * Resourceful controller for interacting with books
  */
@@ -20,12 +20,18 @@ class BookController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response }) {
-    // Select everything from the books table
-    const books = await Book.all()
-    response.send({
-      books
+  async index({ auth, request, response }) {
+    const owner = await auth.getUser()
+    const user = await User.query().with('books').where('id', owner.id).first()
+    response.status(200).send({
+      status: true,
+      data: user.getRelated('books')
     })
+    // Select everything from the books table
+    // const books = await Book.all()
+    // response.send({
+    //   books
+    // })
   }
 
   /**

@@ -34,6 +34,11 @@ class Users extends Model {
   tokens() {
     return this.hasMany('App/Models/Token')
   }
+
+  // Relationship between users and books
+  books() {
+    return this.hasMany('App/Models/Book', 'id', 'owner_id')
+  }
 }
 
 module.exports = Users
