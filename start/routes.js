@@ -24,4 +24,4 @@ Route.post('login', 'LoginController.authenticate').namespace('Auth').validator(
 
 // Books
 Route.get('/books', 'BookController.index')
-Route.post('/books', 'BookController.store')
+Route.post('/books', 'BookController.store').validator('BookValidator')

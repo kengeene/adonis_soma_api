@@ -22,11 +22,9 @@ class BookController {
    */
   async index({ auth, request, response }) {
     const owner = await auth.getUser()
-    const user = await User.query().with('books').where('id', owner.id).first()
-    response.status(200).send({
-      status: true,
-      data: user.getRelated('books')
-    })
+    const books = await Book.query().where("owner_id", owner.id).paginate()
+    // const user = await User.query().with('books').where('id', owner.id).first()
+    response.status(200).send(books)
     // Select everything from the books table
     // const books = await Book.all()
     // response.send({
